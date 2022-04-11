@@ -9,6 +9,10 @@ function App() {
   const [book, setBook] = useState('')
   const [date, setDate] = useState(0)
 
+  const displayInfo = () => {
+    console.log(name);
+  }
+
   return (
     <div className="App">
       <div class="info">
@@ -38,7 +42,7 @@ function App() {
                 <input type="date" onChange={(e)=>{
                   setDate(e.target.value)}}/>
             </div>
-            <button>Submit</button>
+            <button onClick={displayInfo}>Submit</button>
       </div>
     </div>
   );
