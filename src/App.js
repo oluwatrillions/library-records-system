@@ -1,3 +1,4 @@
+import { Axios } from 'axios';
 import {useState} from 'react'
 import './App.css';
 
@@ -7,10 +8,14 @@ function App() {
   const [address, setAddress] = useState('')
   const [age, setAge] = useState(0)
   const [book, setBook] = useState('')
-  const [date, setDate] = useState(0)
 
   const displayInfo = () => {
-    console.log(name);
+    Axios.post('http://localhost:400/register', {
+      name: name,
+      address: address,
+      age: age,
+      book: book,
+    }).then()
   }
 
   return (
@@ -36,11 +41,6 @@ function App() {
                 <label for="bookOfChoice">Book of Choice</label>
                 <input type="text" onChange={(e)=>{
                   setBook(e.target.value)}}/>
-            </div>
-            <div class="details">
-                <label for="returnDate">Date</label>
-                <input type="date" onChange={(e)=>{
-                  setDate(e.target.value)}}/>
             </div>
             <button onClick={displayInfo}>Submit</button>
       </div>

@@ -1,37 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const Schema = require('../model/borrowers')
 const app = express()
 
-require('dotenv').config({ path: './config.env'});
+require('dotenv').config({ path: './config.env' });
+require('cors')
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
 let port = process.env.PORT || 3500
 let uri = process.env.MONGO_URI
-let host = process.env.HOST
-
-const Schema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
-    },
-    age: {
-        type: Number,
-        required: true
-    },
-    book: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Number,
-        required: true
-    },
-    createdAt: {type: Date, default: Date.now}
-})
-
 
 
 mongoose.connect(uri, {
@@ -48,14 +26,37 @@ connection.once('open', () => {
     console.log('it works');
 })
 
-require('cors')
-// app.use(express.json)
 
 
-app.post('/register', (req, res) => {
-    const name = req.body.name
-    console.log(name);
+app.post('/register', async (req, res) => {
+   try {
+       const lend = new Schema({
+           name: req.body.name,
+           address: req.body.address,
+           age: req.body.age,
+           book: req.body.book,
+       });
+
+        console.log("name : ", req.body.name)
+
+       await Schema.create(lend);
+       res.send('Lender added')
+       
+   } catch (error) {
+       console.log({message: error});
+   }
 });
+
+
+app.get('/registerList', (req, res) => {
+        Schema.find({}, (err, result) => {
+        res.send(result)
+        console.log(result);
+        console.log(err);
+    })
+})
+
+
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`)
