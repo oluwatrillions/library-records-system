@@ -1,12 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Schema = require('../model/borrowers')
+const cors = require('cors')
 const app = express()
 
 require('dotenv').config({ path: './config.env' });
-require('cors')
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
+app.use(cors())
 
 let port = process.env.PORT || 3500
 let uri = process.env.MONGO_URI
